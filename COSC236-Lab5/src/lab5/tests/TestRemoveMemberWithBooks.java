@@ -6,8 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import lab5.Member;
 import lab5.Book;
+import lab5.PaperBook;
 import lab5.Library;
-
+import lab5.BorrowingService;
 
 class TestRemoveMemberWithBooks {
 
@@ -16,14 +17,16 @@ class TestRemoveMemberWithBooks {
 	Book book1;
 	Book book2;
 	Book book3;
+	BorrowingService service;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		this.library = new Library(); // Fresh library: one member, two tests
-		book1 = new Book("Dune");
-		book2 = new Book("1984");
-		book3 = new Book("Moby Dick");
-		member = new Member("Dude");
+		this.library = new Library();
+		this.service = BorrowingService.getInstance();
+		book1 = new PaperBook("Dune");
+		book2 = new PaperBook("1984");
+		book3 = new PaperBook("Moby Dick");
+		member = new Member("Dude", service);
 		library.addMember(member);
 		library.addBook(book1);
 		library.addBook(book2);
@@ -32,11 +35,10 @@ class TestRemoveMemberWithBooks {
 	
 	@Test
 	void removeMemberReturnBooks() {
-		
 		member.borrowBook(book1);
 		member.borrowBook(book2);
 		member.borrowBook(book3);
-		assertAll("Check inital library state", 
+		assertAll("Check initial library state", 
 			() -> assertEquals(library.membersCount(),1),
 			() -> assertEquals(library.booksCount(),3),
 			() -> assertFalse(book1.getIsAvailable()),
@@ -53,5 +55,4 @@ class TestRemoveMemberWithBooks {
 		assertTrue(book3.getIsAvailable());
 		assertEquals(member.borrowedBooksCount(),0);
 	}
-
 }

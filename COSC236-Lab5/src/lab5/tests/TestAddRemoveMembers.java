@@ -2,52 +2,57 @@ package lab5.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import lab5.Member;
 import lab5.Library;
 import lab5.Book;
+import lab5.PaperBook;
+import lab5.BorrowingService;
 
 class TestAddRemoveMembers {
-
 	
 	private Library library;
+	private BorrowingService service;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		 this.library = new Library(); // empty library for each test
+		this.library = new Library();
+		this.service = BorrowingService.getInstance();
 	}
-	
-	Member member1 = new Member("Dude");
-	Member member2 = new Member("Gal");
-	Book book1 = new Book("Dune");
-	Book book2 = new Book("1984");
 	
 	@Test
 	void AddMember() {
+		Member member1 = new Member("Dude", service);
+		Member member2 = new Member("Gal", service);
 		
 		assertEquals(library.membersCount(), 0, "Should be no members after initialization");	
 		library.addMember(member1);	
 		assertEquals(library.membersCount(), 1, "One member should have been added");	
 		library.addMember(member2);
 		assertEquals(library.membersCount(), 2, "Two members should have been added");	
-		
 	}
 	
 	@Test
 	void RemoveMembersMember() {
+		Member member1 = new Member("Dude", service);
+		Member member2 = new Member("Gal", service);
 		
-		AddMember();
+		library.addMember(member1);
+		library.addMember(member2);
 		assertEquals(library.membersCount(), 2, "Two members should have been in the library");
 		library.removeMember(member2);
 		assertEquals(library.membersCount(), 1, "Only one member should remain");
 	}
+	
 	@Test
 	void RemoveMemberString() {
+		Member member1 = new Member("Dude", service);
+		Member member2 = new Member("Gal", service);
 		
-		AddMember();
+		library.addMember(member1);
+		library.addMember(member2);
 		assertEquals(library.membersCount(), 2, "Two members should have been in the library");
 		library.removeMember("Dude");
 		assertEquals(library.membersCount(), 1, "Only one member should remain");
@@ -55,8 +60,13 @@ class TestAddRemoveMembers {
 
 	@Test
 	void RemoveMemberWithBooks() {
+		Member member1 = new Member("Dude", service);
+		Member member2 = new Member("Gal", service);
+		Book book1 = new PaperBook("Dune");
+		Book book2 = new PaperBook("1984");
 		
-		AddMember();
+		library.addMember(member1);
+		library.addMember(member2);
 		assertEquals(library.membersCount(), 2, "Two members should be in the library");
 		library.addBook(book1);
 		library.addBook(book2);
@@ -73,6 +83,5 @@ class TestAddRemoveMembers {
 		assertEquals(library.booksCount(), 2, "Two books should be in the library");
 		assertTrue(book1.getIsAvailable(), "Book should be available");
 		assertTrue(book2.getIsAvailable(), "Book should be available");
-				
 	}
 }
