@@ -24,10 +24,31 @@ public class LibraryApp {
 						 	
 		System.out.println(" *** Library management system demo *** ");
 		
+		// Add this test code in main() method
+		System.out.println("\n *** Testing borrowing limit:");
+		librarian.addMember("Charlie");
+		librarian.addBook("Book1");
+		librarian.addBook("Book2");
+		librarian.addBook("Book3");
+		librarian.addBook("Book4");
+		
+		System.out.println("\n *** Testing Factory Method:");
+	    librarian.addBook(new PaperBookFactory(), "Dune");
+	    librarian.addBook(new EBookFactory(), "Digital Fortress");
+	    librarian.addBook(new AudioBookFactory(), "The Hobbit");
+	    
+	    System.out.println("\n *** All books in library:");
+	    librarian.showBooks();
+
+		librarian.borrowBookByMember("Book1", "Charlie");
+		librarian.borrowBookByMember("Book2", "Charlie");
+		librarian.borrowBookByMember("Book3", "Charlie");
+		librarian.borrowBookByMember("Book4", "Charlie"); // Should fail - limit exceeded
+		
 	    // Adding one book, see the Sequence diagram in the lab document.
 		addBook("Dune");
 		
-		// TODO: Create three sequence diagrams for each of these method calls 
+		// DONE: Create three sequence diagrams for each of these method calls 
 		addMember("Alice"); 			// 1. Add a member
 		borrowBook("Dune", "Alice");  	// 2. Borrow a book
 		returnBook("Dune", "Alice"); 	// 3. Return book		
